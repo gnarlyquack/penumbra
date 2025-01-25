@@ -23,6 +23,8 @@ list(REMOVE_ITEM all_sources
 list(REMOVE_DUPLICATES all_sources)
 
 add_library(HPL STATIC ${all_sources})
+# Penumbra Overture appears to use OpenGL 1.4, which requires legacy APIs
+target_compile_definitions(HPL PRIVATE GL_GLEXT_LEGACY GLX_GLXEXT_LEGACY)
 
 add_library(Newton STATIC IMPORTED)
 set_target_properties(Newton PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/lib/linux/libNewton.a)

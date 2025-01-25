@@ -3,14 +3,20 @@ compile: | build
 	cmake --build build
 
 
-# configuring the project will generate the build directory
+# Configuring the project will generate the build directory. Since a build type
+# hass not been explicitly specified, default to a Debug build.
 build:
-	$(MAKE) configure
+	$(MAKE) config-debug
 
 
-.PHONY: configure
-configure:
-	cmake -B build -S .
+.PHONY: config-debug
+config-debug:
+	cmake -B build -S . -DCMAKE_BUILD_TYPE=Debug --fresh
+
+
+.PHONY: config-release
+config-release:
+	cmake -B build -S . -DCMAKE_BUILD_TYPE=Release --fresh
 
 
 .PHONY: run

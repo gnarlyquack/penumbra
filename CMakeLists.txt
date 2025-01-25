@@ -9,6 +9,11 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 98)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Override compiler flags for Debug builds.
+# Namely, we want to use -g3 instead of -g0
+set(CMAKE_C_FLAGS_DEBUG "-g3")
+set(CMAKE_CXX_FLAGS_DEBUG "-g3")
+
 # Force 32-bit compilation. Some dependencies (namely, the version of Newton
 # used for the game) are only available in 32-bit.
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")

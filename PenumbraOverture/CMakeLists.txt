@@ -24,3 +24,16 @@ set_target_properties(Overture PROPERTIES
     OUTPUT_NAME overture)
 
 target_link_libraries(Overture HPL OALWrapper Newton angelscript fltk GL GLU Cg CgGL ogg vorbis vorbisfile openal SDL SDL_ttf SDL_image)
+
+
+# Convenience target to run the game. This requires all game assets to be in
+# the specified working directory
+add_custom_target(run_overture
+    Overture
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/redist)
+
+# Convenience target to debug the game. This requires all game assets to be in
+# the specified working directory
+add_custom_target(debug_overture
+    gdb $<TARGET_FILE:Overture>
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/redist)

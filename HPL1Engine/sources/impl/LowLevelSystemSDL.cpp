@@ -29,6 +29,8 @@
 #ifndef WIN32
 // Include FLTK
 #include "FL/fl_ask.H"
+
+#include <unistd.h> // symlink
 #endif
 
 #define _UNICODE

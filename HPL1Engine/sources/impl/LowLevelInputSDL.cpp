@@ -53,7 +53,9 @@ namespace hpl {
 
 	void cLowLevelInputSDL::LockInput(bool abX)
 	{
+#if 0
 		SDL_WM_GrabInput(abX ? SDL_GRAB_ON : SDL_GRAB_OFF);
+#endif
 	}
 
 	//-----------------------------------------------------------------------

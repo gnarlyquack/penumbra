@@ -775,14 +775,10 @@ const int SINGLE_PTR_SIZE = sizeof(asSIMPLEMETHOD_t);
 template <int N>
 struct asSMethodPtr
 {
+	// This version of the function should never be executed, nor compiled,
+	// as it would mean that the size of the method pointer cannot be determined.
 	template<class M>
-	static asUPtr Convert(M Mthd)
-	{
-		// This version of the function should never be executed, nor compiled,
-		// as it would mean that the size of the method pointer cannot be determined.
-		// int ERROR_UnsupportedMethodPtr[-1];
-		return 0;
-	}
+	static asUPtr Convert(M Mthd);
 };
 
 // Template specialization

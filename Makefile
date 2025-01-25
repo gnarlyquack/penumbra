@@ -1,6 +1,8 @@
+nprocs := $(shell nproc)
+
 .PHONY: compile
 compile: | build
-	cmake --build build
+	cmake --build build -j$(nprocs)
 
 
 # Configuring the project will generate the build directory. Since a build type
@@ -21,12 +23,12 @@ config-release:
 
 .PHONY: run
 run: | build
-	cmake --build build --target run_overture
+	cmake --build build --target run_overture -j$(nprocs)
 
 
 .PHONY: debug
 debug: | build
-	cmake --build build --target debug_overture
+	cmake --build build --target debug_overture -j$(nprocs)
 
 
 .PHONY: clean

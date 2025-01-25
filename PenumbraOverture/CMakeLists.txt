@@ -23,4 +23,4 @@ set_target_properties(Overture PROPERTIES
     INSTALL_RPATH_USE_LINK_PATH false
     OUTPUT_NAME overture)
 
-target_link_libraries(Overture HPL OALWrapper Newton angelscript fltk GL GLU Cg CgGL ogg vorbis vorbisfile openal alut SDL SDL_ttf SDL_image)
+target_link_libraries(Overture HPL OALWrapper Newton angelscript fltk GL GLU Cg CgGL ogg vorbis vorbisfile openal SDL SDL_ttf SDL_image)

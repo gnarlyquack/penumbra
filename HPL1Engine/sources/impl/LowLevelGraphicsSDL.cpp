@@ -199,8 +199,31 @@ namespace hpl {
 
 		if(abFullscreen) mlFlags |= SDL_FULLSCREEN;
 
-		Log(" Setting video mode: %d x %d - %d bpp\n",alWidth, alHeight, alBpp);
-		mpScreen = SDL_SetVideoMode( alWidth, alHeight, alBpp, mlFlags);
+		if (mvScreenSize == cVector2l(-1, -1))
+		{
+			// It seems we need to pass in SDL_FULLSCREEN to get a
+			// list of supported resolutions, otherwise we'll just
+			// get -1 back, meaning "any resolution is ok", which
+			// isn't particularly helpful since we're trying to
+			// detect a reasonable, default resolution.
+			SDL_Rect **modes = SDL_ListModes(NULL, mlFlags | SDL_FULLSCREEN);
+			if (!modes || (modes == reinterpret_cast<SDL_Rect **>(-1)))
+			{
+				FatalError("Unable to initialize display!\n");
+				return false;
+			}
+			else
+			{
+				// Resolutions are sorted from largest to
+				// smallest, so we'll just take the first one.
+				SDL_Rect *mode = modes[0];
+				mvScreenSize.x = mode->w;
+				mvScreenSize.y = mode->h;
+			}
+		}
+
+		Log(" Setting video mode: %d x %d - %d bpp\n", mvScreenSize.x, mvScreenSize.y, alBpp);
+		mpScreen = SDL_SetVideoMode(mvScreenSize.x, mvScreenSize.y, alBpp, mlFlags);
 		if(mpScreen==NULL){
 			Error("Could not set display mode setting a lower one!\n");
 			mvScreenSize = cVector2l(640,480);

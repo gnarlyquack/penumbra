@@ -1,0 +1,11 @@
+# See https://editorconfig.org for how this file works
+
+# Don't look for .editorconfig files above this one
+root = true
+
+[*]
+indent_style = tab
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true

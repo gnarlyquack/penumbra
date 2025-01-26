@@ -326,11 +326,7 @@ bool cInit::Init(tString asCommandLine)
 
 	mvScreenSize.x = mpConfig->GetInt("Screen","Width",800);
 	mvScreenSize.y = mpConfig->GetInt("Screen","Height",600);
-#if 0
 	mbFullScreen = mpConfig->GetBool("Screen", "FullScreen", true);
-#else
-	mbFullScreen = false;
-#endif
 	mbVsync = mpConfig->GetBool("Screen", "Vsync", false);
 	mbLogResources = mpConfig->GetBool("Debug", "LogResources", false);
 	mbDebugInteraction = mpConfig->GetBool("Debug", "DebugInteraction", false);

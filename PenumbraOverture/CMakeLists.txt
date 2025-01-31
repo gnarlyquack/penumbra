@@ -1,6 +1,3 @@
-cmake_minimum_required (VERSION 2.6)
-project(Overture)
-
 add_subdirectory(../OALWrapper ../OALWrapper)
 add_subdirectory(../HPL1Engine ../HPL1Engine)
 

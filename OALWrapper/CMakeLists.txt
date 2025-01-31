@@ -1,10 +1,4 @@
-cmake_minimum_required (VERSION 2.8)
-project (OALWrapper)
-
-set(OALWrapper_VERSION_MAJOR 1)
-set(OALWrapper_VERSION_MINOR 0)
-
-SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/CMakeScripts)
+SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMakeScripts)
 
 SET(PRIVATE_LIB_DIR ""
     CACHE PATH "Location of local private library path to use"

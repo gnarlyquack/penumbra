@@ -1,9 +1,3 @@
-cmake_minimum_required (VERSION 2.6)
-project (HPL)
-
-set(HPL_VERSION_MAJOR 1)
-set(HPL_VERSION_MINOR 0)
-
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/include
 	${CMAKE_CURRENT_SOURCE_DIR}/../OALWrapper/include

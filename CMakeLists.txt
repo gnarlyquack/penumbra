@@ -19,4 +19,14 @@ set(CMAKE_CXX_FLAGS_DEBUG "-g3")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -m32")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32")
 
+
+# Specify the root path(s) to search for 32-bit libraries so calls to 'find_*'
+# commands will discover the correct library versions. Since this seems to vary
+# widely across platforms, it seems best to make this user-configurable.
+set(LIB32_PATH /usr/lib32 CACHE PATH "Search path(s) for 32-bit libraries")
+
+# Use the cache variable to override CMake's default library search behavior.
+set(CMAKE_LIBRARY_PATH ${LIB32_PATH})
+
+
 add_subdirectory(PenumbraOverture)

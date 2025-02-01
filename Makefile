@@ -5,10 +5,11 @@ compile: | build
 	cmake --build build -j$(nprocs)
 
 
-# Configuring the project will generate the build directory. Since a build type
-# hass not been explicitly specified, default to a Debug build.
+# Configuring the project will generate the build directory. We default to a
+# Release build to make the process slightly simpler for individuals not
+# building with the intention of working on the project.
 build:
-	$(MAKE) config-debug
+	$(MAKE) config-release
 
 
 .PHONY: config-debug

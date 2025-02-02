@@ -29,4 +29,6 @@ set(LIB32_PATH /usr/lib32 CACHE PATH "Search path(s) for 32-bit libraries")
 set(CMAKE_LIBRARY_PATH ${LIB32_PATH})
 
 
+add_subdirectory(external/angelscript)
+
 add_subdirectory(PenumbraOverture)

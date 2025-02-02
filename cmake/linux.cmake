@@ -1,0 +1,12 @@
+set(CMAKE_SYSTEM_NAME Linux)
+set(CMAKE_SYSTEM_PROCESSOR i386)
+
+set(CMAKE_CXX_FLAGS_INIT -m32)
+set(CMAKE_C_FLAGS_INIT -m32)
+
+set(CMAKE_EXE_LINKER_FLAGS_INIT -m32)
+set(CMAKE_SHARED_LINKER_FLAGS_INIT -m32)
+set(CMAKE_MODULE_LINKER_FLAGS_INIT -m32)
+
+# Setting this to empty value indicates that binaries are natively executable
+set(CMAKE_CROSSCOMPILING_EMULATOR "")

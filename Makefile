@@ -14,12 +14,16 @@ build:
 
 .PHONY: config-debug
 config-debug:
-	cmake -B build -S . -DCMAKE_BUILD_TYPE=Debug --fresh
+	cmake -B build -S . \
+		--fresh --toolchain=cmake/linux.cmake \
+		-DCMAKE_BUILD_TYPE=Debug
 
 
 .PHONY: config-release
 config-release:
-	cmake -B build -S . -DCMAKE_BUILD_TYPE=Release --fresh
+	cmake -B build -S . \
+		--fresh --toolchain=cmake/linux.cmake \
+		-DCMAKE_BUILD_TYPE=Release
 
 
 .PHONY: run

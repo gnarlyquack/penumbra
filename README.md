@@ -54,12 +54,11 @@ obtaining the game.
 
 3.  Configure the build:
 
-        $ cmake -B build -S . -DCMAKE_BUILD_TYPE=Release
+        $ cmake -B build -S . --toolchain=cmake/linux.cmake -DCMAKE_BUILD_TYPE=Release
 
-    If building in step 4 fails due to not being able to find 32-bit versions
-    of system libraries, you can specify this when configuring the build:
-
-        $ cmake -B build -S . -DCMAKE_BUILD_TYPE=Release -DLIB32_PATH=</path/to/32-bit/libraries>
+    The toolchain file is used to configure CMake to output 32-bit binaries on
+    64-bit systems. Currently this is only supported on Linux. Other platforms
+    will likely need their own toolchain file to build successfully.
 
 4.  Build the source:
 
@@ -87,12 +86,11 @@ troubleshooting easier.
 
 3.  Configure the build:
 
-        $ cmake -B build -S . -DCMAKE_BUILD_TYPE=Debug
+        $ cmake -B build -S . --toolchain=cmake/linux.cmake -DCMAKE_BUILD_TYPE=Debug
 
-    If building in step 4 fails due to not being able to find 32-bit versions
-    of system libraries, you can specify this when configuring the build:
-
-        $ cmake -B build -S . -DCMAKE_BUILD_TYPE=Debug -DLIB32_PATH=</path/to/32-bit/libraries>
+    The toolchain file is used to configure CMake to output 32-bit binaries on
+    64-bit systems. Currently this is only supported on Linux. Other platforms
+    will likely need their own toolchain file to build successfully.
 
 4.  Build the source:
 

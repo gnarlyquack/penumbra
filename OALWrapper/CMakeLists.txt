@@ -1,41 +1,41 @@
-SET(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMakeScripts)
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMakeScripts)
 
-OPTION(USE_SDL2 "Use SDL2 instead of SDL1.2" OFF)
-OPTION(FORCE32 "Force a 32 bit build on 64bit linux" OFF)
+option(USE_SDL2 "Use SDL2 instead of SDL1.2" OFF)
+option(FORCE32 "Force a 32 bit build on 64bit linux" OFF)
 
-FIND_PACKAGE(OGG)
-FIND_PACKAGE(Vorbis)
-IF(NOT(APPLE))
-    FIND_PACKAGE(VorbisFile)
-ENDIF()
-FIND_PACKAGE(OpenAL)
-IF(USE_SDL2)
-    FIND_PACKAGE(SDL2)
-ELSE()
-    FIND_PACKAGE(SDL)
-ENDIF()
+find_package(OGG)
+find_package(Vorbis)
+if(NOT APPLE)
+    find_package(VorbisFile)
+endif()
+find_package(OpenAL)
+if(USE_SDL2)
+    find_package(SDL2)
+else()
+    find_package(SDL)
+endif()
 
-LIST(APPEND OALWRAPPER_INCLUDE_PATHS
+list(APPEND OALWRAPPER_INCLUDE_PATHS
     PRIVATE ${OGG_INCLUDE_DIR}
     PRIVATE ${VORBIS_INCLUDE_DIR}
     PUBLIC ${OPENAL_INCLUDE_DIR}
 )
 if(VORBISFILE_INCLUDE_DIR)
-    LIST(APPEND OALWRAPPER_INCLUDE_PATHS
+    list(APPEND OALWRAPPER_INCLUDE_PATHS
         PRIVATE ${VORBISFILE_INCLUDE_DIR}
     )
 endif()
 
-LIST(APPEND OALWRAPPER_INCLUDE_PATHS
+list(APPEND OALWRAPPER_INCLUDE_PATHS
     PUBLIC include
     PRIVATE ${SDL_INCLUDE_DIR}
 )
 if(EXTRA_INCLUDE_DIR)
-    LIST(APPEND OALWRAPPER_INCLUDE_PATHS
+    list(APPEND OALWRAPPER_INCLUDE_PATHS
         PRIVATE ${EXTRA_INCLUDE_DIR}
     )
 endif()
-SET(all_sources
+set(all_sources
     sources/OAL_AudioData.cpp
     sources/OAL_Buffer.cpp
     sources/OAL_Device.cpp
@@ -61,7 +61,7 @@ SET(all_sources
     sources/OAL_Types.cpp
 )
 
-SET(all_includes
+set(all_includes
     include//OALWrapper/OAL_AudioData.h
     include//OALWrapper/OAL_Buffer.h
     include//OALWrapper/OAL_CustomStream.h
@@ -89,33 +89,33 @@ SET(all_includes
     include//OALWrapper/OAL_WAVSample.h
 )
 
-IF(USE_SDL2)
+if(USE_SDL2)
     add_definitions(-DUSE_SDL2)
-ENDIF()
+endif()
 
 add_library(OALWrapper STATIC
     ${all_sources}
     ${all_includes}
 )
-TARGET_LINK_LIBRARIES(OALWrapper
+target_link_libraries(OALWrapper
     ${VORBISFILE_LIBRARY}
     ${VORBIS_LIBRARY}
     ${OGG_LIBRARY}
     ${OPENAL_LIBRARY}
     ${SDL_LIBRARY}
 )
-TARGET_INCLUDE_DIRECTORIES(OALWrapper
+target_include_directories(OALWrapper
     ${OALWRAPPER_INCLUDE_PATHS}
 )
 
-ADD_EXECUTABLE(SimpleTest EXCLUDE_FROM_ALL tests/Simple/main.cpp)
-TARGET_LINK_LIBRARIES(SimpleTest OALWrapper)
+add_executable(SimpleTest EXCLUDE_FROM_ALL tests/Simple/main.cpp)
+target_link_libraries(SimpleTest OALWrapper)
 
-ADD_EXECUTABLE(PlaySound EXCLUDE_FROM_ALL tests/PlaySound/main.cpp)
-TARGET_LINK_LIBRARIES(PlaySound OALWrapper)
+add_executable(PlaySound EXCLUDE_FROM_ALL tests/PlaySound/main.cpp)
+target_link_libraries(PlaySound OALWrapper)
 
-ADD_EXECUTABLE(Playlist EXCLUDE_FROM_ALL tests/Playlist/main.cpp)
-TARGET_LINK_LIBRARIES(Playlist OALWrapper)
+add_executable(Playlist EXCLUDE_FROM_ALL tests/Playlist/main.cpp)
+target_link_libraries(Playlist OALWrapper)
 
-ADD_EXECUTABLE(CustomStream EXCLUDE_FROM_ALL tests/CustomStream/main.cpp)
-TARGET_LINK_LIBRARIES(CustomStream OALWrapper)
+add_executable(CustomStream EXCLUDE_FROM_ALL tests/CustomStream/main.cpp)
+target_link_libraries(CustomStream OALWrapper)

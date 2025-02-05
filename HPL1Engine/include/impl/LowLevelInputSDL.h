@@ -22,7 +22,7 @@
 #include <list>
 #include "input/LowLevelInput.h"
 
-#include "SDL/SDL.h"
+#include <SDL/SDL.h>
 
 namespace hpl {
 

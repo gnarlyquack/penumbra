@@ -20,7 +20,7 @@
 #define HPL_SDL_PIXELFORMAT_H
 
 #include "graphics/PixelFormat.h"
-#include "SDL/SDL.h"
+#include <SDL/SDL.h>
 
 namespace hpl {
 

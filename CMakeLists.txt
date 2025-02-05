@@ -15,6 +15,11 @@ set(CMAKE_C_FLAGS_DEBUG "-g3")
 set(CMAKE_CXX_FLAGS_DEBUG "-g3")
 
 
+find_package(SDL2 REQUIRED SDL2 SDL2main)
+find_package(SDL2_image REQUIRED)
+find_package(SDL2_ttf REQUIRED)
+
+
 add_subdirectory(external/angelscript)
 
 add_subdirectory(PenumbraOverture)

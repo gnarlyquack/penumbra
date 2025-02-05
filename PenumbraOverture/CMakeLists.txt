@@ -20,7 +20,12 @@ set_target_properties(Overture PROPERTIES
     INSTALL_RPATH_USE_LINK_PATH false
     OUTPUT_NAME overture)
 
-target_link_libraries(Overture HPL OALWrapper Newton fltk GL GLU Cg CgGL ogg vorbis vorbisfile openal SDL SDL_ttf SDL_image)
+target_link_libraries(Overture
+    PRIVATE
+        # TODO We should really only be linking to the engine (and OALWrapper?)
+        HPL Newton fltk GL GLU Cg CgGL
+        OALWrapper ogg vorbis vorbisfile openal
+)
 
 
 # Convenience target to run the game. This requires all game assets to be in

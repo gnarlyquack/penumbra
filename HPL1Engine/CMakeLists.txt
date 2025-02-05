@@ -23,10 +23,15 @@ target_compile_definitions(HPL PRIVATE GL_GLEXT_LEGACY GLX_GLXEXT_LEGACY)
 add_library(Newton STATIC IMPORTED)
 set_target_properties(Newton PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/lib/linux/libNewton.a)
 
-# HPL exposes AngelScript's script engine function registration interface in a
-# public header, so the AngelScript dependency needs to be propagated to
-# targets linking to the game engine.
-target_link_libraries(HPL PUBLIC AngelScript::Engine)
+target_link_libraries(HPL
+    PUBLIC
+        # HPL exposes AngelScript's script engine function registration
+        # interface in a public header, so the AngelScript dependency needs to
+        # be propagated to targets linking to the game engine.
+        AngelScript::Engine
+    PRIVATE
+        SDL SDL_ttf SDL_image
+)
 
 add_library(SDLmain STATIC IMPORTED)
 set_target_properties(SDLmain PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/lib/linux/libSDLmain.a)

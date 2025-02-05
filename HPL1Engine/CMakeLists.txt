@@ -30,8 +30,5 @@ target_link_libraries(HPL
         # be propagated to targets linking to the game engine.
         AngelScript::Engine
     PRIVATE
-        SDL SDL_ttf SDL_image
+        SDL SDLmain SDL_ttf SDL_image
 )
-
-add_library(SDLmain STATIC IMPORTED)
-set_target_properties(SDLmain PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/../dependencies/lib/linux/libSDLmain.a)

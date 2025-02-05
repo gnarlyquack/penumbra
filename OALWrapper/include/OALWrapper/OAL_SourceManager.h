@@ -43,13 +43,13 @@ private:
 
 	int GetUnpackedSourceId(int alHandle);
 	int GetUnpackedRefCount(int alHandle);
-	
-	bool mbManageVoices; 
+
+	bool mbManageVoices;
 
 	int mlNumOfVoices;
 	int mlAvailableVoices;
 
-    SDL_mutex*			mpStreamListMutex;
+	SDL_mutex*			mpStreamListMutex;
 	SDL_Thread*			mpUpdaterThread;
 	int					mlThreadWaitTime;
 	bool				mbUseThreading;
@@ -60,6 +60,4 @@ private:
 };
 
 
-#endif 
-
-
+#endif

@@ -1,6 +1,5 @@
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMakeScripts)
 
-option(USE_SDL2 "Use SDL2 instead of SDL1.2" OFF)
 option(FORCE32 "Force a 32 bit build on 64bit linux" OFF)
 
 find_package(OGG)
@@ -9,11 +8,6 @@ if(NOT APPLE)
     find_package(VorbisFile)
 endif()
 find_package(OpenAL)
-if(USE_SDL2)
-    find_package(SDL2)
-else()
-    find_package(SDL)
-endif()
 
 list(APPEND OALWRAPPER_INCLUDE_PATHS
     PRIVATE ${OGG_INCLUDE_DIR}
@@ -28,7 +22,6 @@ endif()
 
 list(APPEND OALWRAPPER_INCLUDE_PATHS
     PUBLIC include
-    PRIVATE ${SDL_INCLUDE_DIR}
 )
 if(EXTRA_INCLUDE_DIR)
     list(APPEND OALWRAPPER_INCLUDE_PATHS
@@ -89,20 +82,17 @@ set(all_includes
     include//OALWrapper/OAL_WAVSample.h
 )
 
-if(USE_SDL2)
-    add_definitions(-DUSE_SDL2)
-endif()
-
 add_library(OALWrapper STATIC
     ${all_sources}
     ${all_includes}
 )
 target_link_libraries(OALWrapper
-    ${VORBISFILE_LIBRARY}
-    ${VORBIS_LIBRARY}
-    ${OGG_LIBRARY}
-    ${OPENAL_LIBRARY}
-    ${SDL_LIBRARY}
+    PRIVATE
+        ${VORBISFILE_LIBRARY}
+        ${VORBIS_LIBRARY}
+        ${OGG_LIBRARY}
+        ${OPENAL_LIBRARY}
+        SDL2::SDL2
 )
 target_include_directories(OALWrapper
     ${OALWRAPPER_INCLUDE_PATHS}

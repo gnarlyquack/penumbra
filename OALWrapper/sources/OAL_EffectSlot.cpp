@@ -10,7 +10,7 @@
 #include "OALWrapper/OAL_Helper.h"
 #include "OALWrapper/OAL_EFXManager.h"
 
-#include <SDL_mutex.h>
+#include <SDL2/SDL_mutex.h>
 
 cOAL_EffectSlot::cOAL_EffectSlot( cOAL_EFXManager* apEFXManager, int alId) : iOAL_LowLevelObject("EffectSlot"),
 																			  mlId(alId),
@@ -76,7 +76,7 @@ bool cOAL_EffectSlot::AttachEffect ( cOAL_Effect *apEffect )
     mpEffect = apEffect;
 
 	RUN_AL_FUNC ( alAuxiliaryEffectSloti (mlObjectId, AL_EFFECTSLOT_EFFECT, ((mpEffect == NULL)? AL_EFFECT_NULL : mpEffect->GetEffectID()) ) );
-	
+
 	return !AL_ERROR_OCCURED;
 }
 

@@ -23,7 +23,7 @@ set_target_properties(Overture PROPERTIES
 target_link_libraries(Overture
     PRIVATE
         # TODO We should really only be linking to the engine (and OALWrapper?)
-        HPL Newton fltk GL GLU Cg CgGL
+        HPL Newton GL GLU Cg CgGL
         OALWrapper ogg vorbis vorbisfile openal
 )
 

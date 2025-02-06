@@ -27,9 +27,6 @@
 #endif
 
 #ifndef WIN32
-// Include FLTK
-#include "FL/fl_ask.H"
-
 #include <unistd.h> // symlink
 #endif
 
@@ -447,11 +444,26 @@ namespace hpl {
 		}
 
 		MessageBox( NULL, sMess.c_str(), asCaption, lType );
+
 		#else
-		sMess += asCaption;
-		sMess +=_W("\n\n");
-		sMess += text;
-		fl_alert("%ls\n\n%ls",asCaption,text);
+
+		Uint32 flags = 0;
+		switch (eType)
+		{
+		case eMsgBoxType_Info:
+			flags = SDL_MESSAGEBOX_INFORMATION;
+			break;
+		case eMsgBoxType_Error:
+			flags = SDL_MESSAGEBOX_ERROR;
+			break;
+		case eMsgBoxType_Warning:
+			flags = SDL_MESSAGEBOX_WARNING;
+			break;
+		}
+
+		tString title = cString::To8Char(asCaption);
+		tString message = cString::To8Char(text);
+		SDL_ShowSimpleMessageBox(flags, title.c_str(), message.c_str(), 0);
 		#endif
 	}
 

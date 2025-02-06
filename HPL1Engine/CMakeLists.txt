@@ -30,5 +30,5 @@ target_link_libraries(HPL
         # be propagated to targets linking to the game engine.
         AngelScript::Engine
     PRIVATE
-        SDL SDLmain SDL_ttf SDL_image
+        SDL2::SDL2 SDL2::SDL2main SDL2_ttf SDL2_image
 )

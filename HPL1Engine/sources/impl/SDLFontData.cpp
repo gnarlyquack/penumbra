@@ -190,8 +190,8 @@ namespace hpl {
 			unsigned short lUniCode = i;
 			/*char c = (char)i;
 
-			if(c == 'ö')lUniCode = 'o';
-			else if(c == 'Ö')lUniCode = 'O';*/
+			if(c == 'Ã¶')lUniCode = 'o';
+			else if(c == 'Ã–')lUniCode = 'O';*/
 
 			pGlyph = RenderGlyph(pFont, lUniCode, alSize);
 			AddGlyph(pGlyph);
@@ -233,15 +233,18 @@ namespace hpl {
 		pBmp->FillRect(cRect2l(),cColor(0,1));
 
 		//create a surface with the glyph
-		SDL_Color Col;Col.r=255;Col.g=255;Col.b=255;
+		SDL_Color Col;Col.r=255;Col.g=255;Col.b=255;Col.a=255;
 		SDL_Surface* pGlyphSurface = TTF_RenderGlyph_Blended(apFont,aChar,Col);
 
 		//Blit the surface using blending. This way it should create a nice
 		//b&w image where the font is white.
-		SDL_SetAlpha(pBmp->GetSurface(),0,0);
-		SDL_SetAlpha(pGlyphSurface,SDL_SRCALPHA,0);
+		SDL_SetSurfaceAlphaMod(pBmp->GetSurface(), 0);
+		SDL_SetSurfaceBlendMode(pBmp->GetSurface(), SDL_BLENDMODE_NONE);
+
+		SDL_SetSurfaceAlphaMod(pGlyphSurface, 0);
+		SDL_SetSurfaceBlendMode(pGlyphSurface, SDL_BLENDMODE_BLEND);
+
 		SDL_BlitSurface(pGlyphSurface, NULL, pBmp->GetSurface(),NULL);
-		SDL_SetAlpha(pBmp->GetSurface(),0,0);
 
 		//Set the alpha of the bitmap to the average color.
 		//So we get some alpha bledning.

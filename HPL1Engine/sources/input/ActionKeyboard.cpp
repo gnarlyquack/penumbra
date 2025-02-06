@@ -86,7 +86,7 @@ namespace hpl
 			case eKey_TAB: tsKey.append("Tab"); break;
 			case eKey_CLEAR: tsKey.append("Clear"); break;
 			case eKey_RETURN: tsKey.append("Return"); break;
-			case eKey_PAUSE: tsKey.append("Pause"); break;
+			case eKey_PAUSE: tsKey.append("Pause/Break"); break;
 			case eKey_ESCAPE: tsKey.append("Escape"); break;
 			case eKey_SPACE: tsKey.append("Space"); break;
 			case eKey_EXCLAIM: tsKey.append("Exclaim"); break;
@@ -205,16 +205,12 @@ namespace hpl
 			case eKey_LALT: tsKey.append("LeftAlt"); break;
 			case eKey_RMETA: tsKey.append("RightMeta"); break;
 			case eKey_LMETA: tsKey.append("LeftMeta"); break;
-			case eKey_LSUPER: tsKey.append("LeftSuper"); break;
-			case eKey_RSUPER: tsKey.append("RightSuper"); break;
 			case eKey_MODE: tsKey.append("Mode"); break;
 			case eKey_HELP: tsKey.append("Help"); break;
 			case eKey_PRINT: tsKey.append("Print"); break;
 			case eKey_SYSREQ: tsKey.append("SysReq"); break;
-			case eKey_BREAK: tsKey.append("Break"); break;
 			case eKey_MENU: tsKey.append("Menu"); break;
 			case eKey_POWER: tsKey.append("Power"); break;
-			case eKey_EURO: tsKey.append("Euro"); break;
 			case eKey_NONE: tsKey.append("None"); break;
 		}
 		if (tsKey != "") {

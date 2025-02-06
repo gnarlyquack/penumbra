@@ -171,16 +171,12 @@ namespace hpl {
 		eKey_LALT,
 		eKey_RMETA,
 		eKey_LMETA,
-		eKey_LSUPER,
-		eKey_RSUPER,
 		eKey_MODE,
 		eKey_HELP,
 		eKey_PRINT,
 		eKey_SYSREQ,
-		eKey_BREAK,
 		eKey_MENU,
 		eKey_POWER,
-		eKey_EURO,
 		eKey_NONE,
 		eKey_LastEnum
 	};
@@ -204,11 +200,11 @@ namespace hpl {
 	struct cKeyPress
 	{
 		cKeyPress(){}
-		cKeyPress(eKey aKey, int alUnicode,int alModifier)
-			: mKey(aKey), mlUnicode(alUnicode), mlModifier(alModifier) {}
+		cKeyPress(eKey aKey, int alKeyCode, int alModifier)
+			: mKey(aKey), mlKeyCode(alKeyCode), mlModifier(alModifier) {}
 
 		eKey mKey;
-		int mlUnicode;
+		int mlKeyCode;
 		int mlModifier;
 	};
 

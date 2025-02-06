@@ -85,6 +85,8 @@ namespace hpl {
 	//-----------------------------------------------------------------------
 
 	cLowLevelGraphicsSDL::cLowLevelGraphicsSDL()
+		: mpWindow()
+		, mGLContext()
 	{
 		mlBatchArraySize = 20000;
 		mlVertexCount = 0;
@@ -138,13 +140,16 @@ namespace hpl {
 		//#endif
 
 
-		SDL_SetGammaRamp(mvStartGammaArray[0],mvStartGammaArray[1],mvStartGammaArray[2]);
+		SDL_SetWindowGammaRamp(mpWindow, mvStartGammaArray[0],mvStartGammaArray[1],mvStartGammaArray[2]);
 
 		hplFree(mpVertexArray);
 		hplFree(mpIndexArray);
 		for(int i=0;i<MAX_TEXTUREUNITS;i++)	hplFree(mpTexCoordArray[i]);
 
 		hplDelete(mpPixelFormat);
+
+		SDL_GL_DeleteContext(mGLContext);
+		SDL_DestroyWindow(mpWindow);
 
 		//Exit extra stuff
 		ExitCG();
@@ -195,54 +200,40 @@ namespace hpl {
 			}
 		}
 
-		unsigned int mlFlags = SDL_OPENGL;
+		unsigned int mlFlags = SDL_WINDOW_OPENGL;
 
-		if(abFullscreen) mlFlags |= SDL_FULLSCREEN;
+		if(abFullscreen) mlFlags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 
 		if (mvScreenSize == cVector2l(-1, -1))
 		{
-			// It seems we need to pass in SDL_FULLSCREEN to get a
-			// list of supported resolutions, otherwise we'll just
-			// get -1 back, meaning "any resolution is ok", which
-			// isn't particularly helpful since we're trying to
-			// detect a reasonable, default resolution.
-			SDL_Rect **modes = SDL_ListModes(NULL, mlFlags | SDL_FULLSCREEN);
-			if (!modes || (modes == reinterpret_cast<SDL_Rect **>(-1)))
+			SDL_DisplayMode mode;
+			int error = SDL_GetDisplayMode(0, 0, &mode);
+			if (error < 0)
 			{
-				FatalError("Unable to initialize display!\n");
+				FatalError("Unable to initialize display: %s\n", SDL_GetError());
 				return false;
 			}
-			else
-			{
-				// Resolutions are sorted from largest to
-				// smallest, so we'll just take the first one.
-				SDL_Rect *mode = modes[0];
-				mvScreenSize.x = mode->w;
-				mvScreenSize.y = mode->h;
-			}
+			mvScreenSize.x = mode.w;
+			mvScreenSize.y = mode.h;
 		}
 
-		Log(" Setting video mode: %d x %d - %d bpp\n", mvScreenSize.x, mvScreenSize.y, alBpp);
-		mpScreen = SDL_SetVideoMode(mvScreenSize.x, mvScreenSize.y, alBpp, mlFlags);
-		if(mpScreen==NULL){
-			Error("Could not set display mode setting a lower one!\n");
-			mvScreenSize = cVector2l(640,480);
-			mpScreen = SDL_SetVideoMode( mvScreenSize.x, mvScreenSize.y, alBpp, mlFlags);
-			if(mpScreen==NULL)
-			{
-				FatalError("Unable to initialize display!\n");
-				return false;
-			}
-			else
-			{
-				SetWindowCaption(asWindowCaption);
-				CreateMessageBoxW(_W("Warning!"),
-									_W("Could not set displaymode and 640x480 is used instead!\n"));
-			}
-		}
-		else
+		Log(" Opening window: %d x %d - %d bpp\n", mvScreenSize.x, mvScreenSize.y, alBpp);
+		mpWindow = SDL_CreateWindow(
+			asWindowCaption.c_str(),
+			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+			mvScreenSize.x, mvScreenSize.y,
+			mlFlags);
+		if (!mpWindow)
 		{
-			SetWindowCaption(asWindowCaption);
+			FatalError("Unable to open wondow: %s\n", SDL_GetError());
+			return false;
+		}
+
+		mGLContext = SDL_GL_CreateContext(mpWindow);
+		if (!mGLContext)
+		{
+			FatalError("Could not create OpenGL context: %s\n", SDL_GetError());
+			return false;
 		}
 
 		Log(" Init Glee...");
@@ -273,16 +264,16 @@ namespace hpl {
 
 		//Gamma
 		mfGammaCorrection = 1.0f;
-		SDL_GetGammaRamp(mvStartGammaArray[0],mvStartGammaArray[1],mvStartGammaArray[2]);
+		SDL_GetWindowGammaRamp(mpWindow, mvStartGammaArray[0],mvStartGammaArray[1],mvStartGammaArray[2]);
 
-		SDL_SetGamma(mfGammaCorrection,mfGammaCorrection,mfGammaCorrection);
+		SDL_SetWindowBrightness(mpWindow, mfGammaCorrection);
 
 		//GL
 		Log(" Setting up OpenGL\n");
 		SetupGL();
 
 		//Set the clear color
-		SDL_GL_SwapBuffers();
+		SDL_GL_SwapWindow(mpWindow);
 
 		return true;
 	}
@@ -528,7 +519,7 @@ namespace hpl {
 
 		mfGammaCorrection = afX;
 
-		SDL_SetGamma(mfGammaCorrection,mfGammaCorrection,mfGammaCorrection);
+		SDL_SetWindowBrightness(mpWindow, mfGammaCorrection);
 
 		/*Uint16 GammaArray[3][256];
 
@@ -940,7 +931,7 @@ namespace hpl {
 	void cLowLevelGraphicsSDL::SwapBuffers()
 	{
 		glFlush();
-		SDL_GL_SwapBuffers();
+		SDL_GL_SwapWindow(mpWindow);
 	}
 
 	//-----------------------------------------------------------------------

@@ -24,8 +24,8 @@
 #include <Cg/cg.h>
 #include <Cg/cgGL.h>
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_ttf.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 // Unix's X11 Defines DestoryAll which collides with methods
 #undef DestroyAll
 
@@ -262,7 +262,8 @@ namespace hpl {
 		cPlanef mvClipPlanes[kMaxClipPlanes];
 
 		//SDL Variables
-		SDL_Surface *mpScreen;
+		SDL_Window *mpWindow;
+		SDL_GLContext mGLContext;
 		cSDLPixelFormat *mpPixelFormat;
 
 		//Vertex Array variables

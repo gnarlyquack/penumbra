@@ -56,6 +56,7 @@ namespace hpl {
 #if 0
 		SDL_WM_GrabInput(abX ? SDL_GRAB_ON : SDL_GRAB_OFF);
 #endif
+		SDL_SetRelativeMouseMode(abX ? SDL_TRUE : SDL_FALSE);
 	}
 
 	//-----------------------------------------------------------------------

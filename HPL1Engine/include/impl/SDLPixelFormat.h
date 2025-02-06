@@ -20,7 +20,7 @@
 #define HPL_SDL_PIXELFORMAT_H
 
 #include "graphics/PixelFormat.h"
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 namespace hpl {
 
@@ -63,12 +63,7 @@ namespace hpl {
 			mSDLPixelFmt32.Gloss=0;
 			mSDLPixelFmt32.Bloss=0;
 			mSDLPixelFmt32.Aloss=0;
-
-			mSDLPixelFmt32.colorkey =0;
-			mSDLPixelFmt32.alpha = 255;
 			////// END - PIXEL FORMAT 32 bit RGBA ////////
-
-
 		}
 
 		SDL_PixelFormat* GetSDLPixelFormat32()

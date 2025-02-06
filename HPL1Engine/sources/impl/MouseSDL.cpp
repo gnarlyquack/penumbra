@@ -18,7 +18,7 @@
  */
 #include "impl/MouseSDL.h"
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 #include "graphics/LowLevelGraphics.h"
 #include "impl/LowLevelInputSDL.h"
@@ -73,46 +73,65 @@ namespace hpl {
 		for(; it != mpLowLevelInputSDL->mlstEvents.end(); ++it)
 		{
 			SDL_Event *pEvent = &(*it);
-
-			if(	pEvent->type != SDL_MOUSEMOTION &&
-				pEvent->type != SDL_MOUSEBUTTONDOWN &&
-				pEvent->type != SDL_MOUSEBUTTONUP)
+			switch (pEvent->type)
 			{
-				continue;
-			}
-
-			if(pEvent->type == SDL_MOUSEMOTION)
-			{
-				mvMouseAbsPos = cVector2f((float)pEvent->motion.x,(float)pEvent->motion.y);
-				mvMouseAbsPos = (mvMouseAbsPos/vScreenSize)*vVirtualSize;
-
-				Uint8 buttonState = pEvent->motion.state;
-
-				//Set button here as well just to be sure
-				/*if(buttonState & SDL_BUTTON(1)) mvMButtonArray[eMButton_Left] = true;
-				if(buttonState & SDL_BUTTON(2)) mvMButtonArray[eMButton_Middle] = true;
-				if(buttonState & SDL_BUTTON(3)) mvMButtonArray[eMButton_Right] = true;*/
-			}
-			else
-			{
-				bool bButtonIsDown = pEvent->type==SDL_MOUSEBUTTONDOWN;
-
-				//if(pEvent->button.button == SDL_BUTTON_WHEELUP)Log(" Wheel %d!\n",bButtonIsDown);
-
-				switch(pEvent->button.button)
+				case SDL_MOUSEMOTION:
 				{
-					case SDL_BUTTON_LEFT: mvMButtonArray[eMButton_Left] = bButtonIsDown;break;
-					case SDL_BUTTON_MIDDLE: mvMButtonArray[eMButton_Middle] = bButtonIsDown;break;
-					case SDL_BUTTON_RIGHT: mvMButtonArray[eMButton_Right] = bButtonIsDown;break;
-					case SDL_BUTTON_WHEELUP:
-						mvMButtonArray[eMButton_WheelUp] = bButtonIsDown;
-						if(bButtonIsDown) mbWheelUpMoved = true;
-						break;
-					case SDL_BUTTON_WHEELDOWN:
-						mvMButtonArray[eMButton_WheelDown] = bButtonIsDown;
-						if(bButtonIsDown) mbWheelDownMoved = true;
-						break;
-				}
+					mvMouseAbsPos = cVector2f((float)pEvent->motion.x,(float)pEvent->motion.y);
+					mvMouseAbsPos = (mvMouseAbsPos/vScreenSize)*vVirtualSize;
+
+					Uint8 buttonState = pEvent->motion.state;
+
+					//Set button here as well just to be sure
+					/*if(buttonState & SDL_BUTTON(1)) mvMButtonArray[eMButton_Left] = true;
+					if(buttonState & SDL_BUTTON(2)) mvMButtonArray[eMButton_Middle] = true;
+					if(buttonState & SDL_BUTTON(3)) mvMButtonArray[eMButton_Right] = true;*/
+				} break;
+
+				case SDL_MOUSEWHEEL:
+				{
+					// TODO Handle horizontal wheel motion?
+					int vertical = pEvent->wheel.y;
+					if (pEvent->wheel.direction == SDL_MOUSEWHEEL_FLIPPED)
+					{
+						vertical *= -1;
+					}
+
+					if (vertical > 0)
+					{
+						mbWheelUpMoved = true;
+					}
+					else if (vertical < 0)
+					{
+						mbWheelDownMoved = true;
+					}
+				} break;
+
+				case SDL_MOUSEBUTTONDOWN:
+				case SDL_MOUSEBUTTONUP:
+				{
+					bool bButtonIsDown = pEvent->type==SDL_MOUSEBUTTONDOWN;
+
+					//if(pEvent->button.button == SDL_BUTTON_WHEELUP)Log(" Wheel %d!\n",bButtonIsDown);
+
+					switch (pEvent->button.button)
+					{
+						case SDL_BUTTON_LEFT:
+						{
+							mvMButtonArray[eMButton_Left] = bButtonIsDown;
+						} break;
+
+						case SDL_BUTTON_MIDDLE:
+						{
+							mvMButtonArray[eMButton_Middle] = bButtonIsDown;
+						} break;
+
+						case SDL_BUTTON_RIGHT:
+						{
+							mvMButtonArray[eMButton_Right] = bButtonIsDown;
+						} break;
+					}
+				} break;
 			}
 		}
 

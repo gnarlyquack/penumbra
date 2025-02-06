@@ -607,17 +607,19 @@ namespace hpl {
 		{
 			int lFirstFontChar = mpDefaultFontType->GetFirstChar();
 			int lLastFontChar = mpDefaultFontType->GetLastChar();
-			wchar_t unicode = aData.mKeyPress.mlUnicode;
+			int keycode = aData.mKeyPress.mlKeyCode;
+			// FIXME We should really be using a text input event
+			wchar_t utf16 = keycode;
 
 			//Check so press is valid
-			if(	unicode >= lFirstFontChar && unicode <= lLastFontChar &&
-				mpDefaultFontType->GetGlyph(unicode - lFirstFontChar))
+			if(	keycode >= lFirstFontChar && keycode <= lLastFontChar &&
+				mpDefaultFontType->GetGlyph(keycode - lFirstFontChar))
 			{
 				if(	mlSelectedTextEnd <0)
 				{
 					if(mlMaxCharacters ==-1 || (int)msText.size() < mlMaxCharacters)
 					{
-						SetText(cString::SubW(msText,0,	mlMarkerCharPos)+ unicode +
+						SetText(cString::SubW(msText,0,	mlMarkerCharPos)+ utf16 +
 								cString::SubW(msText,mlMarkerCharPos) );
 
 						SetMarkerPos(mlMarkerCharPos+1);
@@ -628,7 +630,7 @@ namespace hpl {
 					int lStart = mlMarkerCharPos < mlSelectedTextEnd ? mlMarkerCharPos : mlSelectedTextEnd;
 					int lEnd = mlMarkerCharPos > mlSelectedTextEnd ? mlMarkerCharPos : mlSelectedTextEnd;
 
-					SetText(cString::SubW(msText,0,	lStart) + unicode +
+					SetText(cString::SubW(msText,0,	lStart) + utf16 +
 							cString::SubW(msText,lEnd));
 
 					mlSelectedTextEnd = -1;

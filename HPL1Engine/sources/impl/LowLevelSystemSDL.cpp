@@ -46,7 +46,7 @@
 #include "impl/LowLevelSystemSDL.h"
 #include "impl/SqScript.h"
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 #include "impl/stdstring.h"
 #include "impl/scriptstring.h"
@@ -693,7 +693,14 @@ namespace hpl {
 
 	void SetWindowCaption(const tString &asName)
 	{
-		SDL_WM_SetCaption(asName.c_str(),"");
+		// FIXME We should set the title on a provided window instance
+		// However, this will require plumbing this through to/from
+		// LowLevelGraphics, and this seems like a quick-and-dirty fix
+		SDL_Window *window = SDL_GL_GetCurrentWindow();
+		if (window)
+		{
+			SDL_SetWindowTitle(window, asName.c_str());
+		}
 	}
 
 	//-----------------------------------------------------------------------

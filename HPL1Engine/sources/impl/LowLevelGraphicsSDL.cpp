@@ -204,7 +204,14 @@ namespace hpl {
 
 		if(abFullscreen) mlFlags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 
-		if (mvScreenSize == cVector2l(-1, -1))
+		// FIXME Use request resolution for fullscreen
+		// With the change to SDL2, something seems to get out of sync
+		// if we create a fullscreen window with dimensions/resolution
+		// that's smaller than the actual screen resolution, causing
+		// movement and rendering to be seriously broken. So for now,
+		// we'll just autodetect the screen resolution and always use
+		// that until we figure out what's going on.
+		if (abFullscreen || (mvScreenSize == cVector2l(-1, -1)))
 		{
 			SDL_DisplayMode mode;
 			int error = SDL_GetDisplayMode(0, 0, &mode);
